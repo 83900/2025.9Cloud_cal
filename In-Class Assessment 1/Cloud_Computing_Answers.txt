@@ -1,0 +1,77 @@
+Cloud Computing Answers
+
+(a) Three Primary Cloud Service Models in Cloud Computing
+
+The three primary cloud service models in cloud computing are:
+
+1. Infrastructure as a Service (IaaS)
+   Definition: Provides virtualized computing resources including virtual machines, storage, and networking infrastructure.
+   Software Development Applications:
+   - Use Amazon EC2 or Alibaba Cloud ECS to create virtual servers for application deployment
+   - Utilize cloud storage services (such as AWS S3) to store application data and backups
+   - Use cloud networking services to configure load balancers and firewalls
+   - Development teams can quickly scale server resources up or down based on project requirements
+
+2. Platform as a Service (PaaS)
+   Definition: Provides a complete development and deployment platform, including operating systems, development tools, and database management systems.
+   Software Development Applications:
+   - Use Heroku or Google App Engine to directly deploy web applications without managing underlying servers
+   - Utilize Azure App Service to develop and host mobile application backends
+   - Use cloud database services (such as AWS RDS) for data management
+   - Developers focus on code writing while the platform automatically handles scaling, monitoring, and maintenance
+
+3. Software as a Service (SaaS)
+   Definition: Provides complete software applications through the internet, where users access them directly via browsers or clients.
+   Software Development Applications:
+   - Use GitHub or GitLab for code version control and collaborative development
+   - Utilize Jira or Trello for project management and task tracking
+   - Use Slack or Microsoft Teams for team communication
+   - Adopt Google Workspace or Office 365 for document collaboration and email management
+
+(b) Docker Containerization Technology
+
+What is Docker?
+Docker is an open-source containerization platform that allows developers to package applications and their dependencies into lightweight, portable containers. Containers include all components needed to run an application: code, runtime, system tools, system libraries, and settings.
+
+Scenario for Using Docker Containerization Technology:
+Suppose we are developing an e-commerce website that includes the following components:
+- Frontend: React.js application
+- Backend: Node.js API service
+- Database: MongoDB
+- Cache: Redis
+- Reverse Proxy: Nginx
+
+In this scenario, we can create independent Docker containers for each component:
+1. Package the React frontend application into one container
+2. Package the Node.js backend API into another container
+3. Use official MongoDB and Redis container images
+4. Configure an Nginx container as a reverse proxy
+
+How Containerization Contributes to Software Development and Deployment:
+
+1. Environment Consistency:
+   - Development, testing, and production environments are completely consistent
+   - Eliminates the "it works on my machine" problem
+   - New team members can quickly set up development environments
+
+2. Simplified Deployment:
+   - Use docker-compose to start the entire application stack with one command
+   - Support blue-green deployment and rolling updates
+   - Easy migration between different cloud platforms
+
+3. Resource Efficiency:
+   - Containers are more lightweight than virtual machines and start faster
+   - Can run more application instances on the same server
+   - Support automatic scaling
+
+4. Microservices Architecture Support:
+   - Each service is containerized independently, facilitating separate updates and scaling
+   - Services communicate through networks, reducing coupling
+   - Support coexistence of services with different technology stacks
+
+5. Enhanced Development Efficiency:
+   - Quickly create and destroy test environments
+   - Support Continuous Integration/Continuous Deployment (CI/CD)
+   - Facilitate A/B testing and feature validation
+
+Through containerization, our e-commerce project can achieve rapid deployment, easy maintenance, high availability, and good scalability, significantly improving the efficiency of software development and operations.
