@@ -1,0 +1,341 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+% 页面设置
+\geometry{margin=2.5cm}
+
+% 代码块设置
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    commentstyle=\color{green!60!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red}
+}
+
+% 中文字体设置
+\setCJKmainfont{PingFang SC}
+\setCJKsansfont{PingFang SC}
+\setCJKmonofont{PingFang SC}
+
+\title{Kubernetes 编排工具问题解答}
+\author{In-Class Assignment 2}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{问题1：编排工具的关键作用}
+
+\textbf{问题：} Orchestration tools, such as Kubernetes, play a key role in the server infrastructure for the modern applications.
+
+(a) Explain how these tools help manage and scale application servers.
+
+(b) Describe how orchestration tools facilitate automated deployment, scaling, and management of application servers.
+
+\textbf{答案：}
+
+\subsection{(a) 编排工具如何帮助管理和扩展应用服务器}
+
+\begin{itemize}
+    \item \textbf{资源管理}：自动分配和管理计算资源（CPU、内存、存储），确保应用获得所需资源
+    \item \textbf{负载均衡}：在多个服务器实例间分配流量，提高性能和可用性
+    \item \textbf{健康监控}：持续监控应用状态，自动重启失败的实例
+    \item \textbf{水平扩展}：根据负载自动增加或减少服务器实例数量
+    \item \textbf{服务发现}：自动管理服务间的网络通信和依赖关系
+\end{itemize}
+
+\subsection{(b) 编排工具如何促进自动化部署、扩展和管理}
+
+\begin{itemize}
+    \item \textbf{声明式配置}：通过YAML文件定义期望状态，系统自动维护该状态
+    \item \textbf{滚动更新}：无停机时间地更新应用版本
+    \item \textbf{自动扩缩容}：基于CPU使用率、内存或自定义指标自动调整实例数量
+    \item \textbf{故障恢复}：自动检测并替换失败的节点或容器
+    \item \textbf{配置管理}：集中管理应用配置和密钥
+\end{itemize}
+
+\section{问题2：Pod、Deployment和Service的区别}
+
+\textbf{问题：} Explain the difference between a Pod, Deployment, and Service.
+
+\textbf{答案：}
+
+\begin{itemize}
+    \item \textbf{Pod}：
+    \begin{itemize}
+        \item Kubernetes中最小的可部署单元
+        \item 包含一个或多个紧密耦合的容器
+        \item 共享网络和存储资源
+        \item 生命周期短暂，可能随时被删除和重建
+    \end{itemize}
+    
+    \item \textbf{Deployment}：
+    \begin{itemize}
+        \item 管理Pod副本的高级控制器
+        \item 确保指定数量的Pod副本始终运行
+        \item 支持滚动更新和回滚
+        \item 提供声明式的应用部署和管理
+    \end{itemize}
+    
+    \item \textbf{Service}：
+    \begin{itemize}
+        \item 为Pod提供稳定的网络访问入口
+        \item 通过标签选择器将流量路由到后端Pod
+        \item 提供负载均衡功能
+        \item 即使Pod重建，Service的IP和DNS名称保持不变
+    \end{itemize}
+\end{itemize}
+
+\section{问题3：Kubernetes中的Namespace}
+
+\textbf{问题：} What is a Namespace in Kubernetes? Please list one example.
+
+\textbf{答案：}
+
+\textbf{Namespace}是Kubernetes中的虚拟集群概念，用于在同一物理集群中创建多个逻辑隔离的环境。它提供：
+\begin{itemize}
+    \item 资源隔离和组织
+    \item 访问控制和权限管理
+    \item 资源配额限制
+    \item 命名空间内的资源名称唯一性
+\end{itemize}
+
+\textbf{示例：}
+\begin{lstlisting}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+\end{lstlisting}
+
+常见的默认namespace包括：
+\begin{itemize}
+    \item \texttt{default}：默认命名空间
+    \item \texttt{kube-system}：系统组件命名空间
+    \item \texttt{kube-public}：公共资源命名空间
+\end{itemize}
+
+\section{问题4：Kubelet的作用和检查节点的命令}
+
+\textbf{问题：} Explain the role of the Kubelet. How do you check the nodes in a Kubernetes cluster? (kubectl command expected)
+
+\textbf{答案：}
+
+\subsection{Kubelet的作用}
+\begin{itemize}
+    \item 运行在每个节点上的主要代理程序
+    \item 负责管理节点上的Pod生命周期
+    \item 与API Server通信，接收Pod规范
+    \item 监控容器健康状态并报告给控制平面
+    \item 管理容器的启动、停止和重启
+    \item 执行健康检查和资源监控
+\end{itemize}
+
+\subsection{检查集群节点的kubectl命令}
+\begin{lstlisting}[language=bash]
+# 查看所有节点
+kubectl get nodes
+
+# 查看节点详细信息
+kubectl get nodes -o wide
+
+# 查看特定节点的详细描述
+kubectl describe node <node-name>
+
+# 查看节点状态
+kubectl get nodes --show-labels
+\end{lstlisting}
+
+\section{问题5：ClusterIP、NodePort和LoadBalancer服务的区别}
+
+\textbf{问题：} What is the difference between ClusterIP, NodePort, and LoadBalancer services?
+
+\textbf{答案：}
+
+\begin{itemize}
+    \item \textbf{ClusterIP}：
+    \begin{itemize}
+        \item 默认服务类型
+        \item 只能在集群内部访问
+        \item 分配一个集群内部IP地址
+        \item 适用于内部服务通信
+    \end{itemize}
+    
+    \item \textbf{NodePort}：
+    \begin{itemize}
+        \item 在每个节点上开放一个特定端口（30000-32767）
+        \item 可以通过任何节点的IP:NodePort访问服务
+        \item 自动创建ClusterIP
+        \item 适用于开发和测试环境
+    \end{itemize}
+    
+    \item \textbf{LoadBalancer}：
+    \begin{itemize}
+        \item 创建外部负载均衡器（需要云提供商支持）
+        \item 自动创建NodePort和ClusterIP
+        \item 提供外部可访问的IP地址
+        \item 适用于生产环境的外部访问
+    \end{itemize}
+\end{itemize}
+
+\section{问题6：使用kubectl扩展Deployment到5个副本}
+
+\textbf{问题：} How do you scale a Deployment to 5 replicas using kubectl?
+
+\textbf{答案：}
+\begin{lstlisting}[language=bash]
+# 方法1：使用scale命令
+kubectl scale deployment <deployment-name> --replicas=5
+
+# 方法2：使用patch命令
+kubectl patch deployment <deployment-name> -p '{"spec":{"replicas":5}}'
+
+# 验证扩展结果
+kubectl get deployment <deployment-name>
+\end{lstlisting}
+
+\section{问题7：无停机更新Deployment镜像}
+
+\textbf{问题：} How would you update the image of a Deployment without downtime?
+
+\textbf{答案：}
+\begin{lstlisting}[language=bash]
+# 方法1：使用set image命令
+kubectl set image deployment/<deployment-name> <container-name>=<new-image>
+
+# 方法2：使用patch命令
+kubectl patch deployment <deployment-name> -p '{"spec":{"template":{"spec":{"containers":[{"name":"<container-name>","image":"<new-image>"}]}}}}'
+
+# 查看滚动更新状态
+kubectl rollout status deployment/<deployment-name>
+
+# 如需回滚
+kubectl rollout undo deployment/<deployment-name>
+\end{lstlisting}
+
+\section{问题8：将Deployment暴露给外部流量}
+
+\textbf{问题：} How do you expose a Deployment to external traffic?
+
+\textbf{答案：}
+\begin{lstlisting}[language=bash]
+# 方法1：创建NodePort服务
+kubectl expose deployment <deployment-name> --type=NodePort --port=80
+
+# 方法2：创建LoadBalancer服务
+kubectl expose deployment <deployment-name> --type=LoadBalancer --port=80
+
+# 方法3：使用kubectl create service
+kubectl create service nodeport <service-name> --tcp=80:8080
+
+# 方法4：通过Ingress（需要先创建Service）
+kubectl expose deployment <deployment-name> --port=80
+# 然后创建Ingress资源
+\end{lstlisting}
+
+\section{问题9：Kubernetes调度决策机制}
+
+\textbf{问题：} How does Kubernetes scheduling decide which node a Pod runs on?
+
+\textbf{答案：}
+
+Kubernetes调度器通过以下步骤决定Pod运行的节点：
+
+\subsection{调度过程}
+\begin{enumerate}
+    \item \textbf{过滤阶段}：排除不符合条件的节点
+    \begin{itemize}
+        \item 资源需求（CPU、内存）
+        \item 节点选择器和亲和性规则
+        \item 污点和容忍度
+        \item 端口冲突检查
+    \end{itemize}
+    
+    \item \textbf{评分阶段}：对符合条件的节点打分
+    \begin{itemize}
+        \item 资源利用率均衡
+        \item 亲和性偏好
+        \item 镜像本地性
+        \item 节点负载均衡
+    \end{itemize}
+    
+    \item \textbf{选择阶段}：选择得分最高的节点
+\end{enumerate}
+
+\subsection{影响因素}
+\begin{itemize}
+    \item 节点资源可用性
+    \item Pod的资源请求和限制
+    \item 节点选择器（nodeSelector）
+    \item 亲和性和反亲和性规则
+    \item 污点（Taints）和容忍度（Tolerations）
+\end{itemize}
+
+\section{问题10：Ingress的作用及其与Service的区别}
+
+\textbf{问题：} What is the role of Ingress and how does it differ from a Service?
+
+\textbf{答案：}
+
+\subsection{Ingress的作用}
+\begin{itemize}
+    \item 管理集群外部对服务的HTTP/HTTPS访问
+    \item 提供负载均衡、SSL终止和基于名称的虚拟主机
+    \item 支持路径路由和域名路由
+    \item 集中管理外部访问规则
+\end{itemize}
+
+\subsection{Ingress与Service的区别}
+
+\begin{longtable}{|p{3cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{特性} & \textbf{Service} & \textbf{Ingress} \\
+\hline
+\textbf{层级} & L4（传输层） & L7（应用层） \\
+\hline
+\textbf{协议} & TCP/UDP & HTTP/HTTPS \\
+\hline
+\textbf{路由} & 基于端口 & 基于路径/域名 \\
+\hline
+\textbf{SSL} & 不支持 & 支持SSL终止 \\
+\hline
+\textbf{负载均衡} & 简单轮询 & 高级负载均衡 \\
+\hline
+\textbf{成本} & 每个服务需要LoadBalancer & 单个入口点 \\
+\hline
+\end{longtable}
+
+\subsection{示例配置}
+\begin{lstlisting}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /app1
+        pathType: Prefix
+        backend:
+          service:
+            name: app1-service
+            port:
+              number: 80
+\end{lstlisting}
+
+\end{document}

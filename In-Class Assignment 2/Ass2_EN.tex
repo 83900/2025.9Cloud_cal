@@ -1,0 +1,335 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+% Page settings
+\geometry{margin=2.5cm}
+
+% Code block settings
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    commentstyle=\color{green!60!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red}
+}
+
+\title{Kubernetes Orchestration Tools Q\&A}
+\author{In-Class Assignment 2}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Question 1: Key Role of Orchestration Tools}
+
+\textbf{Question:} Orchestration tools, such as Kubernetes, play a key role in the server infrastructure for the modern applications.
+
+(a) Explain how these tools help manage and scale application servers.
+
+(b) Describe how orchestration tools facilitate automated deployment, scaling, and management of application servers.
+
+\textbf{Answer:}
+
+\subsection{(a) How orchestration tools help manage and scale application servers}
+
+\begin{itemize}
+    \item \textbf{Resource Management}: Automatically allocate and manage computing resources (CPU, memory, storage), ensuring applications get the resources they need
+    \item \textbf{Load Balancing}: Distribute traffic across multiple server instances to improve performance and availability
+    \item \textbf{Health Monitoring}: Continuously monitor application status and automatically restart failed instances
+    \item \textbf{Horizontal Scaling}: Automatically increase or decrease the number of server instances based on load
+    \item \textbf{Service Discovery}: Automatically manage network communication and dependencies between services
+\end{itemize}
+
+\subsection{(b) How orchestration tools facilitate automated deployment, scaling, and management}
+
+\begin{itemize}
+    \item \textbf{Declarative Configuration}: Define desired state through YAML files, and the system automatically maintains that state
+    \item \textbf{Rolling Updates}: Update application versions without downtime
+    \item \textbf{Auto-scaling}: Automatically adjust the number of instances based on CPU usage, memory, or custom metrics
+    \item \textbf{Fault Recovery}: Automatically detect and replace failed nodes or containers
+    \item \textbf{Configuration Management}: Centrally manage application configurations and secrets
+\end{itemize}
+
+\section{Question 2: Difference between Pod, Deployment, and Service}
+
+\textbf{Question:} Explain the difference between a Pod, Deployment, and Service.
+
+\textbf{Answer:}
+
+\begin{itemize}
+    \item \textbf{Pod}:
+    \begin{itemize}
+        \item The smallest deployable unit in Kubernetes
+        \item Contains one or more tightly coupled containers
+        \item Shares network and storage resources
+        \item Has a short lifecycle and can be deleted and recreated at any time
+    \end{itemize}
+    
+    \item \textbf{Deployment}:
+    \begin{itemize}
+        \item A higher-level controller that manages Pod replicas
+        \item Ensures a specified number of Pod replicas are always running
+        \item Supports rolling updates and rollbacks
+        \item Provides declarative application deployment and management
+    \end{itemize}
+    
+    \item \textbf{Service}:
+    \begin{itemize}
+        \item Provides a stable network access point for Pods
+        \item Routes traffic to backend Pods through label selectors
+        \item Provides load balancing functionality
+        \item Maintains consistent IP and DNS names even when Pods are recreated
+    \end{itemize}
+\end{itemize}
+
+\section{Question 3: Namespace in Kubernetes}
+
+\textbf{Question:} What is a Namespace in Kubernetes? Please list one example.
+
+\textbf{Answer:}
+
+A \textbf{Namespace} is a virtual cluster concept in Kubernetes used to create multiple logically isolated environments within the same physical cluster. It provides:
+\begin{itemize}
+    \item Resource isolation and organization
+    \item Access control and permission management
+    \item Resource quota limitations
+    \item Unique resource names within the namespace
+\end{itemize}
+
+\textbf{Example:}
+\begin{lstlisting}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+\end{lstlisting}
+
+Common default namespaces include:
+\begin{itemize}
+    \item \texttt{default}: Default namespace
+    \item \texttt{kube-system}: System components namespace
+    \item \texttt{kube-public}: Public resources namespace
+\end{itemize}
+
+\section{Question 4: Role of Kubelet and Node Checking Commands}
+
+\textbf{Question:} Explain the role of the Kubelet. How do you check the nodes in a Kubernetes cluster? (kubectl command expected)
+
+\textbf{Answer:}
+
+\subsection{Role of Kubelet}
+\begin{itemize}
+    \item Primary agent running on each node
+    \item Manages Pod lifecycle on the node
+    \item Communicates with the API Server to receive Pod specifications
+    \item Monitors container health and reports to the control plane
+    \item Manages container startup, shutdown, and restart
+    \item Performs health checks and resource monitoring
+\end{itemize}
+
+\subsection{kubectl commands to check cluster nodes}
+\begin{lstlisting}[language=bash]
+# View all nodes
+kubectl get nodes
+
+# View detailed node information
+kubectl get nodes -o wide
+
+# View detailed description of a specific node
+kubectl describe node <node-name>
+
+# View node status with labels
+kubectl get nodes --show-labels
+\end{lstlisting}
+
+\section{Question 5: Difference between ClusterIP, NodePort, and LoadBalancer Services}
+
+\textbf{Question:} What is the difference between ClusterIP, NodePort, and LoadBalancer services?
+
+\textbf{Answer:}
+
+\begin{itemize}
+    \item \textbf{ClusterIP}:
+    \begin{itemize}
+        \item Default service type
+        \item Only accessible within the cluster
+        \item Assigns an internal cluster IP address
+        \item Suitable for internal service communication
+    \end{itemize}
+    
+    \item \textbf{NodePort}:
+    \begin{itemize}
+        \item Opens a specific port on each node (30000-32767)
+        \item Accessible via any node's IP:NodePort
+        \item Automatically creates ClusterIP
+        \item Suitable for development and testing environments
+    \end{itemize}
+    
+    \item \textbf{LoadBalancer}:
+    \begin{itemize}
+        \item Creates an external load balancer (requires cloud provider support)
+        \item Automatically creates NodePort and ClusterIP
+        \item Provides an externally accessible IP address
+        \item Suitable for production external access
+    \end{itemize}
+\end{itemize}
+
+\section{Question 6: Scaling Deployment to 5 Replicas using kubectl}
+
+\textbf{Question:} How do you scale a Deployment to 5 replicas using kubectl?
+
+\textbf{Answer:}
+\begin{lstlisting}[language=bash]
+# Method 1: Using scale command
+kubectl scale deployment <deployment-name> --replicas=5
+
+# Method 2: Using patch command
+kubectl patch deployment <deployment-name> -p '{"spec":{"replicas":5}}'
+
+# Verify scaling result
+kubectl get deployment <deployment-name>
+\end{lstlisting}
+
+\section{Question 7: Updating Deployment Image without Downtime}
+
+\textbf{Question:} How would you update the image of a Deployment without downtime?
+
+\textbf{Answer:}
+\begin{lstlisting}[language=bash]
+# Method 1: Using set image command
+kubectl set image deployment/<deployment-name> <container-name>=<new-image>
+
+# Method 2: Using patch command
+kubectl patch deployment <deployment-name> -p '{"spec":{"template":{"spec":{"containers":[{"name":"<container-name>","image":"<new-image>"}]}}}}'
+
+# Check rolling update status
+kubectl rollout status deployment/<deployment-name>
+
+# Rollback if needed
+kubectl rollout undo deployment/<deployment-name>
+\end{lstlisting}
+
+\section{Question 8: Exposing Deployment to External Traffic}
+
+\textbf{Question:} How do you expose a Deployment to external traffic?
+
+\textbf{Answer:}
+\begin{lstlisting}[language=bash]
+# Method 1: Create NodePort service
+kubectl expose deployment <deployment-name> --type=NodePort --port=80
+
+# Method 2: Create LoadBalancer service
+kubectl expose deployment <deployment-name> --type=LoadBalancer --port=80
+
+# Method 3: Using kubectl create service
+kubectl create service nodeport <service-name> --tcp=80:8080
+
+# Method 4: Through Ingress (need to create Service first)
+kubectl expose deployment <deployment-name> --port=80
+# Then create Ingress resource
+\end{lstlisting}
+
+\section{Question 9: Kubernetes Scheduling Decision Process}
+
+\textbf{Question:} How does Kubernetes scheduling decide which node a Pod runs on?
+
+\textbf{Answer:}
+
+The Kubernetes scheduler decides which node a Pod runs on through the following steps:
+
+\subsection{Scheduling Process}
+\begin{enumerate}
+    \item \textbf{Filtering Phase}: Exclude nodes that don't meet requirements
+    \begin{itemize}
+        \item Resource requirements (CPU, memory)
+        \item Node selectors and affinity rules
+        \item Taints and tolerations
+        \item Port conflict checks
+    \end{itemize}
+    
+    \item \textbf{Scoring Phase}: Score eligible nodes
+    \begin{itemize}
+        \item Resource utilization balance
+        \item Affinity preferences
+        \item Image locality
+        \item Node load balancing
+    \end{itemize}
+    
+    \item \textbf{Selection Phase}: Choose the highest-scoring node
+\end{enumerate}
+
+\subsection{Influencing Factors}
+\begin{itemize}
+    \item Node resource availability
+    \item Pod resource requests and limits
+    \item Node selectors (nodeSelector)
+    \item Affinity and anti-affinity rules
+    \item Taints and Tolerations
+\end{itemize}
+
+\section{Question 10: Role of Ingress and Difference from Service}
+
+\textbf{Question:} What is the role of Ingress and how does it differ from a Service?
+
+\textbf{Answer:}
+
+\subsection{Role of Ingress}
+\begin{itemize}
+    \item Manages external HTTP/HTTPS access to services in the cluster
+    \item Provides load balancing, SSL termination, and name-based virtual hosting
+    \item Supports path-based and domain-based routing
+    \item Centrally manages external access rules
+\end{itemize}
+
+\subsection{Difference between Ingress and Service}
+
+\begin{longtable}{|p{3cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Feature} & \textbf{Service} & \textbf{Ingress} \\
+\hline
+\textbf{Layer} & L4 (Transport Layer) & L7 (Application Layer) \\
+\hline
+\textbf{Protocol} & TCP/UDP & HTTP/HTTPS \\
+\hline
+\textbf{Routing} & Port-based & Path/domain-based \\
+\hline
+\textbf{SSL} & Not supported & Supports SSL termination \\
+\hline
+\textbf{Load Balancing} & Simple round-robin & Advanced load balancing \\
+\hline
+\textbf{Cost} & Each service needs LoadBalancer & Single entry point \\
+\hline
+\end{longtable}
+
+\subsection{Example Configuration}
+\begin{lstlisting}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /app1
+        pathType: Prefix
+        backend:
+          service:
+            name: app1-service
+            port:
+              number: 80
+\end{lstlisting}
+
+\end{document}
