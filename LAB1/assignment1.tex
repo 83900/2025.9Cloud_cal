@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, total={170mm,257mm}, left=20mm, top=20mm}
+
+\title{Lab 1: Virtualization and Cloud Computing}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Check processor virtualization support}
+The command \texttt{sysctl kern.hv\_support} returned `1`, which indicates that the processor has virtualization support enabled.
+
+\section*{2. The success of the cloud}
+\subsection*{Fundamental Reasons for Success}
+\begin{itemize}
+    \item \textbf{Scalability:} Cloud computing allows users to easily scale their resources up or down as needed.
+    \item \textbf{Cost-Effectiveness:} It eliminates the need for large upfront investments in hardware and infrastructure.
+    \item \textbf{Accessibility:} Cloud services can be accessed from anywhere with an internet connection.
+\end{itemize}
+
+\subsection*{Three Pros of Cloud}
+\begin{itemize}
+    \item \textbf{Cost Savings:} Pay-as-you-go models reduce capital expenditure.
+    \item \textbf{High Availability:} Cloud providers offer robust infrastructure with high uptime.
+    \item \textbf{Scalability:} Easily adjust resources to meet changing demands.
+\end{itemize}
+
+\subsection*{Three Cons of Cloud}
+\begin{itemize}
+    \item \textbf{Security and Privacy Concerns:} Entrusting data to a third-party provider can be a risk.
+    \item \textbf{Downtime:} Outages can occur, impacting business operations.
+    \item \textbf{Limited Control:} Users have less control over the underlying infrastructure compared to on-premises solutions.
+\end{itemize}
+
+\section*{3. Primary function of a hypervisor}
+The primary function of a hypervisor is to create and manage virtual machines (VMs) by abstracting the underlying physical hardware and allocating resources to each VM.
+
+\section*{4. What is a virtual machine (VM)?}
+A virtual machine (VM) is a software-based emulation of a physical computer. It runs its own operating system and applications, and it is completely isolated from the host system and other VMs.
+
+\section*{5. Benefits of using virtual machines}
+\begin{itemize}
+    \item \textbf{Resource Optimization:} Multiple VMs can run on a single physical server, maximizing hardware utilization.
+    \item \textbf{Cost Savings:} Reduced hardware and maintenance costs.
+    \item \textbf{Improved Disaster Recovery:} VMs can be easily backed up and migrated to other servers.
+    \item \textbf{Isolation:} VMs are isolated from each other, providing a secure environment for running applications.
+\end{itemize}
+
+\section*{6. Five use cases of virtual machines}
+\begin{enumerate}
+    \item Server consolidation.
+    \item Software development and testing.
+    \item Running legacy applications.
+    \item Disaster recovery and business continuity.
+    \item Cloud computing.
+\end{enumerate}
+
+\section*{7. In virtualization, what is the guest operating system?}
+The correct answer is \textbf{(b) The operating system installed on a virtual machine}.
+
+\section*{8. What does virtual machine isolation mean?}
+The correct answer is \textbf{(c) Virtual machines run independently and are isolated from each other and the host system}.
+
+\end{document}
