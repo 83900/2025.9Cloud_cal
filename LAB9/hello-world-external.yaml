@@ -1,0 +1,17 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello-world-external
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+      - image: gcr.io/knative-samples/helloworld-go
+        env:
+        - name: TARGET
+          value: "Knative External"
+        ports:
+        - containerPort: 8080
