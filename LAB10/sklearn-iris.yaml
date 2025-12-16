@@ -1,0 +1,16 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: sklearn-iris
+  namespace: default
+spec:
+  predictor:
+    sklearn:
+      storageUri: "https://github.com/kserve/kserve/raw/v0.13.0/docs/samples/sklearn/iris/model.joblib"
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
