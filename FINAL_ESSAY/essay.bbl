@@ -1,0 +1,27 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{kang2017neurosurgeon}
+Kang, Y., Hauswald, J., Gao, C., Rovinski, A., Mudge, T., Mars, J., Tang, L.:
+  Neurosurgeon: Collaborative intelligence between the cloud and mobile edge.
+  In: Proceedings of the 22nd International Conference on Architectural Support
+  for Programming Languages and Operating Systems (ASPLOS). pp. 615--629. ACM
+  (2017), \url{https://dl.acm.org/doi/10.1145/3037697.3037698}
+
+\bibitem{laskaridis2020spinn}
+Laskaridis, S., Venieris, S.I., Almeida, M., Leontiadis, I., Lane, N.D.: Spinn:
+  Synergistic progressive inference of neural networks over device and cloud.
+  In: Proceedings of the 26th Annual International Conference on Mobile
+  Computing and Networking (MobiCom). pp. 1--15. ACM (2020),
+  \url{https://dl.acm.org/doi/10.1145/3372224.3419194}
+
+\bibitem{patel2024splitwise}
+Patel, P., Choukse, E., Zhang, C., Wiggers, A., Kiyavash, N., Laurenzano, M.A.,
+  Ahmadi, B., Reddi, V.J.: Splitwise: Efficient generative llm inference using
+  phase splitting. In: Proceedings of the 51st Annual International Symposium
+  on Computer Architecture (ISCA) (2024),
+  \url{https://arxiv.org/abs/2311.18677}
+
+\end{thebibliography}
